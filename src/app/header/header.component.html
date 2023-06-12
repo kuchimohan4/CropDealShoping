@@ -1,0 +1,70 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="#">
+            <img src="assets/images/icon.png" width="40" height="40" style="margin-left: 5px ;" class="d-inline-block align-top" >
+            <img src="assets/images/logo.png" width="100" height="30" style="margin-top: 5px ;" class="d-inline-block align-top" >
+            
+          </a>
+    </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <!-- <li class="nav-item dropdown show">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Link
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li> 
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li> -->
+          
+        </ul>
+
+        
+        
+        <form class="right-inline d-flex" >
+            
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="serchStr"  >
+            <button class="btn btn-outline-success my-2 my-sm-0"  type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0"  style="padding-left:10px ;">
+            <li class="nav-item">
+              <a class="nav-link" style="cursor: pointer;" >Login/SignUp</a>
+            </li>
+          </ul>
+          <a  style="padding-left:10px ;cursor: pointer;padding-right: 20px;">
+            <div  >
+                <i class="bi bi-bag-check " style="font-size: 30px;"></i>
+            </div>
+        </a>
+
+          <div >
+            <button type="button" class="dropdown " style="border: none;text-decoration: none;background: none;" (click)="openDropdown()">
+                <div style="border: 1px solid; height: 45px; width: 45px;border-radius: 50%;" ></div> 
+            </button>
+            <ul class="dropdown-menu" [class.show]="isDropdownOpen" style="margin-left: -130px;">
+               <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+
+          
+    
+    </div>   
+    </div>
+  </nav>
+
