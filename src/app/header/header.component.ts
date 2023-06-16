@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog'
+import { BasketComponent } from '../basket/basket.component';
 
 @Component({
   selector: 'app-header',
@@ -6,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  constructor(private matdialo:MatDialog){}
 
   isDropdownOpen=false;
 
@@ -13,6 +16,12 @@ export class HeaderComponent {
   openDropdown(){
     this.isDropdownOpen=!this.isDropdownOpen;
   }
+
+  opencart(){
+    this.matdialo.open(BasketComponent,{
+     width:'60%',
+    })
+   }
 
 
 }

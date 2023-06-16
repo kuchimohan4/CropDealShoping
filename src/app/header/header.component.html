@@ -17,7 +17,7 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" routerLink="/shops">Shops</a>
           </li>
           <!-- <li class="nav-item dropdown show">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -42,11 +42,11 @@
           </form>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0"  style="padding-left:10px ;">
             <li class="nav-item">
-              <a class="nav-link" style="cursor: pointer;" >Login/SignUp</a>
+              <a class="nav-link" style="cursor: pointer;" routerLink="/login">Login/SignUp</a>
             </li>
           </ul>
           <a  style="padding-left:10px ;cursor: pointer;padding-right: 20px;">
-            <div  >
+            <div  (click)="opencart()">
                 <i class="bi bi-bag-check " style="font-size: 30px;"></i>
             </div>
         </a>
