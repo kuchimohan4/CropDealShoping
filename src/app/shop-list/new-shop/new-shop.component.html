@@ -1,0 +1,60 @@
+
+<div class="container ">
+    <div class="row d-flex justify-content-center row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2  g-4" *ngIf="shopform">
+    <div class="col" >
+      <div class="card">
+        <a [routerLink]="'../'+[shop.shopid]" 
+        routerLinkActive="active" style="text-decoration: none; color: inherit;">
+        <img [src]="uplaodedimg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title" style="font-weight: bold;">{{shopform.controls['shopName'].value}}</h3>
+            <p style="background-color: rgb(6, 125, 86); width: 40px; border-radius: 10%;margin-top: 10px;">{{shop.shopRating ? shop.shopRating:'NA' }}<i class="bi bi-star"></i></p>
+          </div>
+          <p class="card-text">{{shopform.controls['shopDesc'].value}}</p>
+        </div>
+      </a>
+      </div>
+    </div>  
+</div>
+    <hr>
+<div class="container" *ngIf="shopform">
+    <form [formGroup]="shopform">
+        <div class="row d-flex justify-content-center m-2 align-items-center">
+            <div class="col-md-2 " >
+                <label for="shopName "  style="font-weight: bold;">Shop Name</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" formControlName="shopName" placeholder="Shop Name" name="shopName" id="shopName"
+                    class="form-control ">
+            </div>
+        </div> 
+        <div class="row d-flex justify-content-center m-2 align-items-center">
+            <div class="col-md-2 " >
+                <label for="ProductImage " style="font-weight: bold;">Shop Image</label>
+            </div>
+            <div class="col-md-4">
+                <input type="file" formControlName="shopImg" (change)="uploadedimage($event)" placeholder="Product Image"  name="ProductImage" id="ProductImage"
+                    class="form-control text-center">
+            </div>
+        </div> 
+        <div class="row d-flex justify-content-center m-2 align-items-center">
+            <div class="col-md-3">
+                <label for="shopDesc" style="font-weight: bold;">Shop Description</label>
+            </div>
+        </div> 
+        <div class="row d-flex justify-content-center m-2 align-items-center">
+            <div class="col-md-6">
+                <textarea name="shopDesc" formControlName="shopDesc" id="shopDesc" class="form-control" placeholder=" shop description"></textarea>
+            </div>
+        </div> 
+        <div class="row d-flex justify-content-center m-2 align-items-center">
+            <div class="col-md-1 " >
+                <button type="button" routerLink="/shops" class="btn btn-danger">Cancel</button>
+            </div>
+            <div class="col-md-1 m-4">
+                <button type="button" class="btn btn-success"  (click)="saveshop()">Save</button>
+            </div>
+        </div> 
+    </form>
+</div>

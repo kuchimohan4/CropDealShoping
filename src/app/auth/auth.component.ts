@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthenticationService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -8,10 +9,11 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit{
-  constructor( private route:ActivatedRoute,private router:Router){}
+  constructor( private route:ActivatedRoute,private router:Router,private authservice:AuthenticationService){}
 
   logingIn=false;
   isVerifingOtp=false;
+  errorBackend='';
 
   loginForm:FormGroup=new FormGroup({});
   otpForm:FormGroup=new FormGroup({
@@ -34,7 +36,7 @@ ngOnInit(): void {
         "password":new FormControl(null,Validators.required)
       })
     }else{
-      console.log("hjdb")
+
       this.loginForm=new FormGroup({
         "Name":new FormControl(null,Validators.required),
         "email":new FormControl(null,[Validators.required,Validators.email]),
@@ -89,20 +91,38 @@ otpValidateor(control: AbstractControl): { [key: string]: any } | null {
 loginsignup(){
   if(this.logingIn){
     //somprocess
+    this.authservice.login(this.loginForm.value).subscribe((responce)=>{
+        this.router.navigate(['/shops'])
+    },(error)=>{
+      this.errorBackend=error.error;
+      // console.log(error.error);
+    })
+
   }else{
-    //  some process then 
-    this.isVerifingOtp=true;
+    console.log(this.loginForm.value);
+    this.authservice.register(this.loginForm.value).subscribe((response)=>{
+      this.isVerifingOtp=true;
+    },(error)=>{
+      console.log(error);
+      this.errorBackend=error.error;
+    });
   }
-  console.log(this.loginForm)
 
 }
 
 submitOtp(){
-  var otp=this.otpForm.value['otp1']+this.otpForm.value['otp2']+this.otpForm.value['otp3']+this.otpForm.value['otp4']+this.otpForm.value['otp5']+this.otpForm.value['otp6'];
-  
-    // otp=otp +i;
-  
-  console.log(otp);
+  var otP=this.otpForm.value['otp1']+this.otpForm.value['otp2']+this.otpForm.value['otp3']+this.otpForm.value['otp4']+this.otpForm.value['otp5']+this.otpForm.value['otp6'];
+  let otpcon:{email:string,otp:string}={email:this.loginForm.value['email'],otp:otP};
+  this.authservice.validateemail(otpcon).subscribe((responce)=>{
+    this.errorBackend=responce.msg;
+      this.authservice.login({email:this.loginForm.value['email'],password:this.loginForm.value['password']}).subscribe((responce)=>{
+          this.router.navigate(['../add-profile'])
+      })
+  },(error)=>{
+    this.errorBackend=error.error;
+  });
+
+  // console.log(otp);
 }
 
 } 

@@ -24,7 +24,7 @@
                             <p class="card-text">{{newProductForm.value['productDescription']}}</p>
                         </div>
                         <div class="col-md-3 col-lg-2 col-4" >
-                            <img src='assets/images/apple.jfif' style="height: 100px;width: 100px;" alt="Image" class="img-fluid">
+                            <img [src]='uplaodedimg' style="height: 100px;width: 100px;" alt="Image" class="img-fluid">
                             
                         </div>
                     </div>
@@ -81,16 +81,16 @@
                     <label for="ProductImage " style="font-weight: bold;">Product Image</label>
                 </div>
                 <div class="col-md-4">
-                    <input type="file" placeholder="Product Image" formControlName="productImage" name="ProductImage" id="ProductImage"
-                        class="form-control text-center">
+                    <input type="file"  placeholder="Product Image" formControlName="productImage" name="ProductImage" id="ProductImage"
+                        class="form-control text-center" (change)="uploadedimage($event)">
                 </div>
             </div> 
             <div class="row d-flex justify-content-center m-5 align-items-center btn-group">
                 <div class="col-md-1 m-2" >
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" (click)="deleteProduct()" class="btn btn-danger">Delete</button>
                 </div>
                 <div class="col-md-1 m-2">
-                    <button type="button" class="btn btn-light" >Cancel</button>
+                    <button type="button" class="btn btn-light" (click)="cancelchanges()" >Cancel</button>
                 </div>
                 <div class="col-md-1 m-2">
                     <button type="button" (click)="saveProduct()" class="btn btn-success">Save</button>

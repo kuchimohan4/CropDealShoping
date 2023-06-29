@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="d-flex justify-content-center" >
+      <ngb-rating [(rate)]="currentRate" [max]="5" style="font-size: 40px;">
+        <ng-template let-fill="fill" let-index="index">
+          <i class="bi-star{{fill === 100 ? '-fill' : ''}} filled sunlight"  [class.filled]="fill === 100" [class.low]="index < 3"></i>
+        </ng-template>
+      </ngb-rating>
+    </div>
+
+    <form  [formGroup]="reviewForm" (ngSubmit)="submitForm()">
+    
+    <div class="row d-flex  m-3 align-items-center" style="justify-items: center;">
+        <div class="col-lg-3"  style="text-align: end;">
+            <label for="review " style="font-weight: bold;font-size: medium;">Review:</label>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" formControlName="review" placeholder="Review "  name="Review" id="Review"
+                class="form-control text-center">
+        </div>
+    </div> 
+    <div class="row d-flex justify-content-center m-3 align-items-center" >
+        <div class="col-lg-3" style="text-align: end;">
+            <label for="reviewDesc " style="font-weight: bold;font-size: medium;">Review Description:</label>
+        </div>
+        <div class="col-lg-9">
+            <textarea type="text" formControlName="reviwDesc" placeholder="Review Description "  name="reviewDesc" id="reviewDesc"
+                class="form-control "></textarea>
+        </div>
+    </div> 
+    <div class="row d-flex justify-content-center m-5 align-items-center btn-group">
+        <div class="col-lg-2 m-2">
+            <button type="button" class="btn btn-light" (click)="canceladding()" >Cancel</button>
+        </div>
+        <div class="col-lg-2 m-2">
+            <button type="submit" [disabled]="!reviewForm.valid" class="btn btn-success">Save</button>
+        </div>
+    </div>
+</form>
+  </div>
+  

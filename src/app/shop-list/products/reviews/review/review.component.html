@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="card" style="background-image: url('assets/images/background3.png');">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="d-flex justify-content-center" style="margin-top: 0px;">
+                            <div class="d-flex rating-container" style="color: green; border: 1px solid; text-align: center; max-width: 65px; border-radius: 5px;padding-left: 5px;padding-right: 5px;">
+                                <p style="margin: 0;">{{product.productRating}} </p>
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <div class="d-flex rating-container" style="color: green; border: 1px solid; text-align: center; max-width: 120px; border-radius: 5px;padding-left: 5px;padding-right: 5px;margin-left: 10px;">
+                                <p style="margin: 0;">Avaliable:{{product.productQuantityAvl}} KG</p>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-lg-10 col-8" style="margin-top: -20px;">
+                            <h3 class="card-title" style="font-weight: bold;margin-left: 1px;">{{product.productName}}</h3>
+                            <div class="card-text" style="margin-top: -10px;margin-bottom: 5px;"><i class="bi bi-currency-rupee"></i>{{product.productPrice}}</div>
+                            <p class="card-text">{{product.ProductDescription}}</p>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-4" >
+                            <img [src]="product.productImg" style="height: 100px;width: 100px;" alt="Image" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-5">
+                 <h1 class="text-center" style="font-weight: bold;">Reviews</h1>
+                 <div class="row d-flex  m-3">
+                    <div class="col-md-4 col-lg-2"><button *ngIf="role==='DEALEAR'&&!isaddingReview" (click)="isaddingReview=true" class="form-control">Add Review</button></div>
+                    <div class="row d-flex justify-content-center" *ngIf="isaddingReview">
+                        <app-edit-review [productId]="product.productId" (cancelediting)="isaddingReview =false"></app-edit-review>
+                    </div>
+                 </div>
+            <div class="card  mb-3" [ngClass]="getcolor(review.rating)[1]" *ngFor="let review of reviews">
+                <div class="row d-flex " style="justify-content: flex-end;">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="card-header">-- {{review.DealearName}}</div>
+                    </div>
+                    <div class="col-lg-7 col-md-5"></div>
+                    <div class="col-lg-2 col-md-3">
+                        <div class="d-flex rating-container  justify-content-center" [ngClass]="getcolor(review.rating)[1]+' '+ getcolor(review.rating)[0]" style=" border: 1px solid; text-align: center; max-width: 65px; border-radius: 5px;margin-top: 3px;margin-left: 40px;">
+                            <p style="margin: 0;">{{review.rating}} </p>
+                            <i class="bi bi-star"></i>
+                            </div>
+                    </div>
+                </div>
+                <div class="card-body " [ngClass]="getcolor(review.rating)[0]" >
+                  <h5 class="card-title">{{review.review}}</h5>
+                  <p class="card-text">{{review.reviewDesc}}</p>
+                </div>
+              </div>
+        </div>
+    </div> 
+</div>
+
+
+
+
+

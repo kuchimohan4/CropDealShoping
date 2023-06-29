@@ -16,11 +16,15 @@ import { ProductListComponent } from './shop-list/products/product-list/product-
 import { EditProdutComponent } from './shop-list/products/edit-produt/edit-produt.component';
 import { BasketFooterComponent } from './basket/basket-footer/basket-footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatDialogModule} from '@angular/material/dialog'
+import {MatDialogModule} from '@angular/material/dialog';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { NewShopComponent } from './shop-list/new-shop/new-shop.component';
+import { ReviewsComponent } from './shop-list/products/reviews/reviews.component';
+import { ReviewComponent } from './shop-list/products/reviews/review/review.component';
+import { EditReviewComponent } from './shop-list/products/reviews/edit-review/edit-review.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { authIntercepter } from './auth/auth.intercepter';
+import { OrderBillComponent } from './basket/order-bill/order-bill.component';
 
 
 @NgModule({
@@ -36,7 +40,13 @@ import {MatDialogModule} from '@angular/material/dialog'
     ProductsComponent,
     ProductListComponent,
     EditProdutComponent,
-    BasketFooterComponent
+    BasketFooterComponent,
+    EditProfileComponent,
+    NewShopComponent,
+    ReviewsComponent,
+    ReviewComponent,
+    EditReviewComponent,
+    OrderBillComponent
   ],
   imports: [
     BrowserModule,
@@ -45,10 +55,11 @@ import {MatDialogModule} from '@angular/material/dialog'
     FormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    HttpClientModule
     
   ],
-  providers: [],
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:authIntercepter,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

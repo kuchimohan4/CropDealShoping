@@ -35,16 +35,18 @@
         <div class="col-lg-5">
             <div class="row">
                 <div style="margin-top: 30px;width: 350px;" class="d-flex" *ngIf="!couponapplied">
-                    <input type="text" placeholder="Coupon"  class="form-control text-center" style="width:200px ;border-right: 0px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;" >
+                    <input type="text" placeholder="Coupon" [(ngModel)]="couponCode" (change)="removecouponerror()"  class="form-control text-center" style="width:200px ;border-right: 0px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;" >
                     <button type="button" (click)="applyCoupon()" class="form-control btn btn-success" style="width:120px ;border-left: 1px;border-top-left-radius: 0%;border-bottom-left-radius: 0%;border-left: 1px solid;" >Apply</button>
                 </div>
                 <div style="margin-top: 30px;width: 270px;" class="d-flex" *ngIf="couponapplied">
-                    <input type="text" disabled [value]="coupon.couponName"  class="form-control text-center" style="width:200px ;border-right: 0px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;" >
+                    <input type="text" disabled [value]="coupon.coupon"  class="form-control text-center" style="width:200px ;border-right: 0px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;" >
                     <button type="button" (click)="removeCoupon()" class="form-control btn btn-danger" style="width:70px ;border-left: 1px;border-top-left-radius: 0%;border-bottom-left-radius: 0%;border-left: 1px solid;" >X</button>
+                </div>
+                <div style="color: red;" *ngIf="couponError">
+                    <p>{{couponError}}</p>
                 </div>
             </div>
             <div class="row">
-              
                 <table class="table" style="margin-top: 50px;">
                     <tbody>
                         <tr >
@@ -84,7 +86,7 @@
             </div>
             <div class="row text-center" style="">
                 <div class="col-12">
-                    <button class="btn btn-success" style="width: 50%;">Place Order</button>
+                    <button class="btn btn-success" (click)="placeorder()" style="width: 50%;">Place Order</button>
                 </div>
             </div>
 
