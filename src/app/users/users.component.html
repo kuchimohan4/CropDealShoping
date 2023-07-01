@@ -1,0 +1,68 @@
+<h1 class="text-center m-5" style="font-size: 50px;font-family: 'Times New Roman', Times, serif;">{{userType==='farmers' ?'Farmers':'Dealers'}}</h1>
+<div class="container">
+    <div class="container" style="margin-top: 50px;">
+        <table class="table table-striped" style="margin-top: 50px;">
+            <thead  style="color: white;background-color: black;" >
+                <tr *ngIf="userType==='farmers'">
+                    <th>
+                        Farmer Id
+                    </th>
+                    <th>
+                        Farmer Name
+                    </th>
+                    <th>
+                        Farmer Mail
+                    </th>
+                    <th>
+                        Account status
+                    </th>
+                    <th style="text-align: center;">
+                        Shop
+                    </th>
+                    <th>
+                        No Of Products
+                    </th>
+                </tr>
+                <tr *ngIf="userType==='dealer'">
+                    <th>
+                        Delear Id
+                    </th>
+                    <th>
+                        Delear Name
+                    </th>
+                    <th>
+                        Delear Mail
+                    </th>
+                    <th>
+                        Delear status
+                    </th>
+                    <th >
+                        No of orders
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let farmer of farmerlist">
+                    <td>{{farmer.userId}}</td>
+                    <td>{{farmer.userName}}</td>
+                    <td>{{farmer.userEmail}}</td>
+                    <div>
+                        <td *ngIf="!farmer.accountNonLocked"><button (click)="activateUser(farmer.userId)" class="btn btn-danger">Locked</button></td>
+                        <td *ngIf="farmer.accountNonLocked"><button (click)="lockUser(farmer.userId)" class="btn btn-success">Active</button></td>
+                    </div>
+                    
+                        <!-- <td>{{farmer.FarmerHaveAShop}}</td> -->
+                        <td *ngIf="farmer.FarmerHaveAShop && userType==='farmers'" style="text-align: center;">
+                            <a routerLink="../shops/{{farmer.userId}}" style="text-decoration: none;">Visit Shop</a>
+                        </td>
+                        <td  *ngIf="!farmer.FarmerHaveAShop && userType==='farmers'" style="text-align: center">
+                            NA
+                        </td>
+                    <td *ngIf="userType==='farmers'">{{farmer.noOfProducts}}</td>
+                    <td *ngIf="userType==='dealer'">{{farmer.noOfOrders}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

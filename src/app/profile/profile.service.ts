@@ -47,6 +47,10 @@ export class proileservice{
         })
     }
 
+    getProfileByid(id:number){
+      return this.http.get("http://localhost:8765/profile/profile/"+id,{ observe: 'response' })
+    }
+
     getprofiledetails(){
         return {...this.profile};
     }

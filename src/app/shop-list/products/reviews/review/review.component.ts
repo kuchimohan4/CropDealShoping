@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, async } from 'rxjs';
+import { basketService } from 'src/app/basket/basket.service';
+import { productservice } from '../../products.service';
+import { reviewService } from '../review.service';
+import { proileservice } from 'src/app/profile/profile.service';
 
 @Component({
   selector: 'app-review',
@@ -7,27 +12,15 @@ import { Subject } from 'rxjs';
   styleUrls: ['./review.component.css']
 })
 export class ReviewComponent implements OnInit{
+
+  constructor(private activeroute:ActivatedRoute,private basketservice:basketService,private prodservice:productservice,private reviewService:reviewService,private profileService:proileservice){}
   role='DEALEAR';
   isaddingReview=false;
+  productimg:any;
+  isreviewAddedByDelear=false;
+  product:any;
 
-  product={productId:"pro1",productName:'Apple',productPrice:150.0,ProductDescription:'Card description goes here.',
-  productRating:4.5,productQuantityAvl:56,productImg:'assets/images/apple.jfif',CartQuantity:0};
-
-  reviews:{reviewid:number,DealearName:string,rating:number,review:string,reviewDesc:string}[]=[
-    {reviewid:1,DealearName:'Kuchi Hareesh',rating:4,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:2,DealearName:'Kuchi Hareesh',rating:5,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:3,DealearName:'Kuchi Hareesh',rating:1,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:4,DealearName:'Kuchi Hareesh',rating:3,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:5,DealearName:'Kuchi Hareesh',rating:2,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:6,DealearName:'Kuchi Hareesh',rating:1,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:7,DealearName:'Kuchi Hareesh',rating:5,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:8,DealearName:'Kuchi Hareesh',rating:2,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:9,DealearName:'Kuchi Hareesh',rating:3,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:10,DealearName:'Kuchi Hareesh',rating:4,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:11,DealearName:'Kuchi Hareesh',rating:5,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
-    {reviewid:12,DealearName:'Kuchi Hareesh',rating:2,review:'good',reviewDesc:'one of the best vegitables i have ever brought.pakaging was also great.'},
- 
-  ]
+  reviews:{reviewid:number,DealearName:string,rating:number,review:string,reviewDesc:string}[]=[ ]
 
   getcolor(rating:number):string[]{
     let colors:string[]=[];
@@ -61,6 +54,38 @@ export class ReviewComponent implements OnInit{
   }
   
   ngOnInit(): void {
+    this.activeroute.params.subscribe((params)=>{
+      this.reviewService.getIsReviewAddedByDelear(params['productId']).subscribe((res:any)=>{
+        if(res){
+          this.isreviewAddedByDelear=res.added;
+        }
+      })
+      this.basketservice.getproductById(params['productId']).subscribe(async(res:any)=>{
+        if(res.status===200){
+        this.product={productId:res.body.productId,productName:res.body.productName,productPrice:res.body.price,ProductDescription:res.body.productDetails,
+        productRating:0,productQuantityAvl:res.body.availableQuantity};
+          this.prodservice.getImage(res.body.farmerId+'_'+res.body.productName+'_productImg').subscribe((res)=>{
+            this.productimg=URL.createObjectURL(res);
+          })
+        const prodrating=await this.prodservice.getProductrating(res.body.productId).toPromise();
+        if(prodrating){
+          this.product['productRating']=prodrating['avgrating']
+        }
+        const reviews:any=  await this.reviewService.getProductReviews(res.body.productId).toPromise();
+        if(reviews){
+          for( let review of reviews.body){
+           let reviewdetail:{reviewid:number,DealearName:string,rating:number,review:string,reviewDesc:string}=
+           {reviewid:review.reviewId,DealearName:'',rating:review.rating,review:review.review,reviewDesc:review.description}
+           const profile:any=await this.profileService.getProfileByid(review.dealearId).toPromise();
+           if(profile){
+            reviewdetail.DealearName=profile.body.name;
+           }
+           this.reviews.push(reviewdetail);
+          }
+        }
+        }
+      })
+    })
    
   }
 

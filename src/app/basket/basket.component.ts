@@ -28,6 +28,16 @@ export class BasketComponent implements OnInit {
 
   priceDetails:{totalAmount:number,totalDiscount:number}={totalAmount:0,totalDiscount:0};
   ngOnInit(): void {
+    this.basketService.cartChanged.subscribe((change)=>{
+      this.getBasketItems()
+    })
+    this.getBasketItems()
+    
+  }
+
+
+  getBasketItems(){
+    this.basket=[]
     this.basketService.getcartItems().subscribe(async(res)=>{
       if(res.status===200){
         for(let cart of res.body){
@@ -44,7 +54,6 @@ export class BasketComponent implements OnInit {
       }
       this.getTotalAmount();
     })
-    
   }
 
   getTotalAmount(){
@@ -64,6 +73,7 @@ export class BasketComponent implements OnInit {
           if(product.productId===productId){
             if(!(product.productQuantity===product.AvalibleQuantity)){
             product.productQuantity=product.productQuantity+1;
+            this.basketService.cartChanged.next(true);
             }
             
           }
@@ -90,6 +100,7 @@ export class BasketComponent implements OnInit {
             if(product.productId===productId){
               if(!(product.productQuantity===0)){
               product.productQuantity=product.productQuantity-1;
+              this.basketService.cartChanged.next(true);
               }
             }
       
@@ -170,8 +181,8 @@ export class BasketComponent implements OnInit {
             "razorpay_signature": string }={orderid:razopayinput.orderId,razorpay_payment_id:response.razorpay_payment_id,razorpay_order_id:response.razorpay_order_id,razorpay_signature:response.razorpay_signature}
             console.log(orderconformation)
             this.basketService.paymentConformationCart(orderconformation).subscribe((res:any)=>{
-              this.basketService.orderid=res.orderId;
-              this.openBill();
+              this.basketService.cartChanged.next(true);
+              this.router.navigate(['/bill/'+res.orderId])
             },error=>{
               console.log(error);
 
@@ -199,14 +210,7 @@ export class BasketComponent implements OnInit {
     rozorpayobj.open();
     
   } 
-
-
-  openBill(){
-    this.matdialo.open(OrderBillComponent,{
-     width:'60%'
-    })
-
     
-   }
+   
 
 }

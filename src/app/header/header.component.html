@@ -37,8 +37,8 @@
         
         <form class="right-inline d-flex" >
             
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="serchStr"  >
-            <button class="btn btn-outline-success my-2 my-sm-0"  type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" [(ngModel)]='searchstr' name="serchStr"  >
+            <button class="btn btn-outline-success my-2 my-sm-0" (click)="search()" >Search</button>
           </form>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0"  style="padding-left:10px ;">
             <li class="nav-item" *ngIf="!role">
@@ -60,11 +60,11 @@
             <ul class="dropdown-menu" [class.show]="isDropdownOpen" style="margin-left: -130px;">
                <li><a class="dropdown-item"  routerLink="/my-profile">My profile</a></li>
                <li><a class="dropdown-item" routerLink="/shops/edit-shop" *ngIf="role==='FARMER'" >My Shop</a></li>
-                    <li><a class="dropdown-item" href="#" *ngIf="role==='FARMER'">Orders</a></li>
-                    <li><a class="dropdown-item" href="#" *ngIf="role==='DEALER'">My orders</a></li>
-                    <li><a class="dropdown-item" href="#" *ngIf="role==='ADMIN'">Farmers</a></li>
-                    <li><a class="dropdown-item" href="#" *ngIf="role==='ADMIN'">Dealears</a></li>
-                    <li><a class="dropdown-item" href="#" *ngIf="role==='ADMIN'">Orders</a></li>
+                    <li><a class="dropdown-item" routerLink="/orders"  *ngIf="role==='FARMER'">Orders</a></li>
+                    <li><a class="dropdown-item"  routerLink="/my-orders" *ngIf="role==='DEALER'">My orders</a></li>
+                    <li><a class="dropdown-item" routerLink="/farmers"  *ngIf="role==='ADMIN'">Farmers</a></li>
+                    <li><a class="dropdown-item" routerLink="/dealer" *ngIf="role==='ADMIN'">Dealears</a></li>
+                    <li><a class="dropdown-item" routerLink="/orders"  *ngIf="role==='ADMIN'">Orders</a></li>
                     <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Log Out</a></li>
             </ul>
           </div>

@@ -25,6 +25,9 @@ import { EditReviewComponent } from './shop-list/products/reviews/edit-review/ed
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { authIntercepter } from './auth/auth.intercepter';
 import { OrderBillComponent } from './basket/order-bill/order-bill.component';
+import { OrdersComponent } from './orders/orders.component';
+import { UsersComponent } from './users/users.component';
+import { searchPipe } from './shop-list/shop/serchPipe';
 
 
 @NgModule({
@@ -46,7 +49,10 @@ import { OrderBillComponent } from './basket/order-bill/order-bill.component';
     ReviewsComponent,
     ReviewComponent,
     EditReviewComponent,
-    OrderBillComponent
+    OrderBillComponent,
+    OrdersComponent,
+    UsersComponent,
+    searchPipe
   ],
   imports: [
     BrowserModule,

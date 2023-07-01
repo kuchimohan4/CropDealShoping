@@ -1,0 +1,60 @@
+
+        <h1 class="text-center m-5" style="font-size: 50px;font-family: 'Times New Roman', Times, serif;">Orders</h1>
+<div class="container">
+    <div class="container" style="margin-top: 50px;">
+        <table class="table table-striped" *ngFor="let orderdetails of orderData" style="margin-top: 50px;">
+            <thead  style="color: white;background-color: black;" >
+                <tr >
+                    <th scope="col">
+                        ORDER ID
+                    </th>
+                    <th scope="col">
+                        Product Name
+                    </th>
+                    <th scope="col">
+                        Product Price
+                    </th>
+                    <th scope="col">
+                        Product Quantity
+                    </th>
+                    <th scope="col">
+                        Total Price
+                    </th>
+                    <th *ngIf="role==='ADMIN'">Farmer Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let orderprodDetails of orderdetails.products">
+                    <td>
+                        {{orderdetails.orderId}}
+                    </td>
+                    <td>{{orderprodDetails.productName}}</td>
+                    <td>{{orderprodDetails.productPrice}}</td>
+                    <td>{{orderprodDetails.productQuantity}}</td>
+                    <td>{{orderprodDetails.totalPrice}}</td>
+                    <td *ngIf="role==='ADMIN'">{{orderprodDetails.farmerId}}</td>
+                </tr>
+                <tr>
+                    <td>Total Price:</td>
+                    <td>{{orderdetails.totalPrice}}</td>
+                    <td *ngIf="orderdetails.discount && (role==='DEALER'||role==='ADMIN')">Discount:</td>
+                    <td *ngIf="role==='FARMER'">Discount And Charges:</td>
+                    <td *ngIf="orderdetails.discount">{{orderdetails.discount}}</td>
+                    <td  *ngIf="role==='DEALER'">Amount Paid:</td>
+                    <td *ngIf="role==='FARMER'||role==='ADMIN'"> Amount Receved</td>
+                    <td>{{orderdetails.amountPaid}}</td>
+                </tr>
+                <tr *ngIf="role==='ADMIN'||role==='DEALER'">
+                   <td *ngIf="role==='ADMIN'">
+                    Delear Id :
+                   </td > 
+                   <td *ngIf="role==='ADMIN'">
+                    {{orderdetails.delearId}}
+                   </td>
+                   <td *ngIf="role==='DEALER'"><button class="btn btn-success" type="button" routerLink="../bill/{{orderdetails.orderId}}">View Bill</button></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>

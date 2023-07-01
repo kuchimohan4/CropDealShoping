@@ -17,7 +17,21 @@ export class ProductListComponent implements OnInit{
   error:any;
   constructor(private activeroute:ActivatedRoute,private authservice:AuthenticationService,private productservice:productservice,private basketservice:basketService){}
   ngOnInit(): void {
-    
+    this.basketservice.cartChanged.subscribe(async(change)=>{
+     for(let product of this.products){
+        const cartitems=await  this.basketservice.getcartItems().toPromise();
+             if(cartitems){
+                if (cartitems.status === 200) {
+                  for (let cartitem of cartitems.body) {
+                      if (product.productId === cartitem.product.productId) {
+                        product.CartQuantity = cartitem.quantity;
+                      }
+                  }
+                }
+             }
+      }
+    })
+
     this.activeroute.params.subscribe((params)=>{
       this.role=this.authservice.getauth().role;
       if(params['id']){
@@ -31,6 +45,7 @@ export class ProductListComponent implements OnInit{
           this.error=error.error.message
         })
         this.productservice.productschanged.subscribe(async (productlist)=>{
+          this.products=[]
           productlist.forEach(async (productdb)=>{
             let product:{productId:string,productName:string,productPrice:number,ProductDescription:string,
               productRating:number,productQuantityAvl:number,productImg:string,CartQuantity:number,productimgfile:any}={
@@ -51,6 +66,7 @@ export class ProductListComponent implements OnInit{
               if(prodrating){
                 product.productRating=prodrating.avgrating;
               }
+              if(this.authservice.getauth().role==='DEALER'){
              const cartitems=await  this.basketservice.getcartItems().toPromise();
              if(cartitems){
                 if (cartitems.status === 200) {
@@ -61,6 +77,7 @@ export class ProductListComponent implements OnInit{
                   }
                 }
              }
+            }
              
               this.products.push(product);
           });
@@ -90,6 +107,7 @@ export class ProductListComponent implements OnInit{
             if(product.productId===productId){
               if(!(product.CartQuantity===product.productQuantityAvl)){
               product.CartQuantity=product.CartQuantity+1;
+              this.basketservice.cartChanged.next(true);
               }
             }
     
@@ -112,9 +130,10 @@ export class ProductListComponent implements OnInit{
             if(product.productId===productId){
               if(!(product.CartQuantity===0)){
               product.CartQuantity=product.CartQuantity-1;
+              this.basketservice.cartChanged.next(true);
               }
             }else{
-              console.log(res);
+              // console.log(res);
             }
           })}
       },error=>{

@@ -1,79 +1,86 @@
-<div class="container">
-	
-	<div class="row justify-content-center">
-	  <div class="col-10">
+<div style="background-image: url();">
+<div class="container" style="margin-left:100px;">
+	<div class="row">
+	  <div class="col-12 text-center">
+		<div class="mx-auto col-10">
 		<header class="text-center">
 		  <h1>Invoice</h1>
 		  <address>
-			<p>Jonathan Neal</p>
-			<p>101 E. Chapman Ave<br>Orange, CA 92866</p>
-			<p>(800) 555-1234</p>
+			<p>{{delear.name}}</p>
+			<p>{{delear.address.addressLine1}},{{delear.address.city}}</p>
+			<p>+91 {{delear.mobileNumber}}</p>
 		  </address>
-		  <div class="d-flex justify-content-center " style="padding-left: 340px;">
+		  <div class="d-flex justify-content-center" style="padding-left: 340px;">
 			<img src="/assets/images/invertedIconn11.png" alt="" class="img-fluid" style="max-height: 150px; max-width: 130px;">
 		  </div>
 		</header>
 		<article>
 		  <h1>Recipient</h1>
 		  <address>
-			<p>Some Company<br>c/o Some Guy</p>
+			<img src="assets/images/logo.png" alt="">
 		  </address>
 		  <table class="balance m-3">
 			<tr>
 			  <th>Invoice #</th>
-			  <td>101138</td>
+			  <td>{{invoice.billId}}</td>
 			</tr>
 			<tr>
 			  <th>Date</th>
-			  <td>January 1, 2012</td>
+			  <td>{{invoice.date.toLocaleDateString()}}</td>
 			</tr>
 			<tr>
-			  <th>Amount Due</th>
-			  <td >$600.00</td>
+			  <th>Amount Paid</th>
+			  <td>₹{{invoice.amountPaid}}</td>
 			</tr>
 		  </table>
 		  <table class="table m-3">
 			<thead>
 			  <tr>
-				<th>Item</th>
-				<th>Description</th>
-				<th>Rate</th>
+				<th>Farmer Id</th>
+				<th>Product Id</th>
+				<th>Product Name</th>
+				<th>Product Price</th>
 				<th>Quantity</th>
-				<th>Price</th>
+				<th>Total Price</th>
 			  </tr>
 			</thead>
 			<tbody>
-			  <tr>
-				<td>Front End Consultation</td>
-				<td>Experience Review</td>
-				<td>$150.00</td>
-				<td>4</td>
-				<td>$600.00</td>
+			  <tr *ngFor="let product of products">
+				<td>{{product.farmerId}}</td>
+				<td>{{product.productId}}</td>
+				<td>{{product.productName}}</td>
+				<td>₹{{product.productPrice}}</td>
+				<td>{{product.productQuantity}}</td>
+				<td>₹{{product.totalPrice}}</td>
 			  </tr>
 			</tbody>
 		  </table>
 		  <table class="balance m-3">
 			<tr>
 			  <th>Total</th>
-			  <td>$600.00</td>
+			  <td>₹{{bill.totalAmount}}</td>
+			</tr>
+			<tr *ngIf="bill.DiscountAmount">
+			  <th >Discount</th>
+			  <td>₹{{bill.DiscountAmount}}</td>
 			</tr>
 			<tr>
-			  <th>Amount Paid</th>
-			  <td>${{orderid}}</td>
-			</tr>
-			<tr>
-			  <th>Balance Due</th>
-			  <td>$600.00</td>
+			  <th>Amount paid</th>
+			  <td>₹{{bill.amountPaid}}</td>
 			</tr>
 		  </table>
 		</article>
 		<aside>
-		  <h1>Additional Notes</h1>
-		  <div>
-			<p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
+		  <h1>Farmers address</h1>
+		  <div *ngFor="let farmer of farmers" class="m-3">
+			<p>{{farmer.name}}({{farmer.id}})</p>
+			<p>{{farmer.address.addressLine1}},{{delear.address.city}}</p>
+			<p>+91 {{farmer.mobileNumber}}</p>
+			
 		  </div>
 		</aside>
 	  </div>
 	</div>
   </div>
-  
+  </div>
+</div>

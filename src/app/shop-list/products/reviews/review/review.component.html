@@ -19,14 +19,14 @@
                             <p class="card-text">{{product.ProductDescription}}</p>
                         </div>
                         <div class="col-md-3 col-lg-2 col-4" >
-                            <img [src]="product.productImg" style="height: 100px;width: 100px;" alt="Image" class="img-fluid">
+                            <img [src]="productimg" style="height: 100px;width: 100px;" alt="Image" class="img-fluid">
                         </div>
                     </div>
                 </div>
             </div>
             <hr class="m-5">
                  <h1 class="text-center" style="font-weight: bold;">Reviews</h1>
-                 <div class="row d-flex  m-3">
+                 <div class="row d-flex  m-3" *ngIf="!isreviewAddedByDelear">
                     <div class="col-md-4 col-lg-2"><button *ngIf="role==='DEALEAR'&&!isaddingReview" (click)="isaddingReview=true" class="form-control">Add Review</button></div>
                     <div class="row d-flex justify-content-center" *ngIf="isaddingReview">
                         <app-edit-review [productId]="product.productId" (cancelediting)="isaddingReview =false"></app-edit-review>

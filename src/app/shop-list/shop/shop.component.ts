@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { shopService } from '../shop.service';
 import { async } from 'rxjs';
+import { searchPipe } from './serchPipe';
 
 @Component({
   selector: 'app-shop',
@@ -10,7 +11,7 @@ import { async } from 'rxjs';
 export class ShopComponent implements OnInit{
   constructor(private shopservice:shopService){}
   error:any;
-
+  searchStr='';
   ngOnInit(): void {
     this.shopservice.getshops().subscribe((res)=>{
     },error=>{
@@ -36,6 +37,10 @@ export class ShopComponent implements OnInit{
         this.shopsList.push(shopmaped)
       })
     })
+
+    this.shopservice.serching.subscribe((searchstr:string)=>{
+      this.searchStr=searchstr;
+     });
   }
 
 

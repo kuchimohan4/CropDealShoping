@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2  g-4">
       
-        <div class="col" *ngFor="let shop of shopsList">
+        <div class="col" *ngFor="let shop of shopsList | search:searchStr">
           <div class="card">
             <a [routerLink]="[shop.shopid]" 
             routerLinkActive="active" style="text-decoration: none; color: inherit;">
@@ -15,7 +15,6 @@
               <p class="card-text">{{shop.shopDescription}}</p>
             </div>
           </a>
-          </div>
         </div>  
 </div>
         

@@ -1,7 +1,9 @@
-import { Component,Input,OnInit } from '@angular/core';
+import { AfterViewInit, Component,Input,OnInit } from '@angular/core';
 import { basketService } from '../basket.service';
 import { async } from 'rxjs';
 import { productservice } from 'src/app/shop-list/products/products.service';
+import { ActivatedRoute } from '@angular/router';
+import { proileservice } from 'src/app/profile/profile.service';
 
 @Component({
   selector: 'app-order-bill',
@@ -10,60 +12,79 @@ import { productservice } from 'src/app/shop-list/products/products.service';
 })
 export class OrderBillComponent implements OnInit {
   
-  orderid:any=0;
-  constructor(private basketService:basketService,private productService:productservice){}
+  orderid:number=0;
+  constructor(private basketService:basketService,private productService:productservice,private activeroute:ActivatedRoute,private prifileservice:proileservice){}
   error:any
 
-  products:{productId:string,productName:string,productPrice:number,productQuantity:number,totalPrice:number}[]=[];
+  products:{farmerId:number,productId:string,productName:string,productPrice:number,productQuantity:number,totalPrice:number}[]=[];
   invoice:{billId:number,date:Date,amountPaid:number}={billId:0,date:new Date,amountPaid:0};
   bill:{totalAmount:number,DiscountAmount:number,amountPaid:number}={totalAmount:0,DiscountAmount:0,amountPaid:0}
-
+  prodlist:string[]=[];
+  quntitylist:number[]=[];
+  delear:any;
+  farmers:any[]=[];
 ngOnInit(): void {
+  this.activeroute.params.subscribe(params=>{
+    if(params['id']){
+      this.orderid=params['id'];
+    }
+  })
   
-}
-
-onintial(){
-  this.orderid=this.basketService.orderid;
-  console.log(this.orderid);
   this.basketService.getorder(this.orderid).subscribe(async (res:any)=>{
     if(res.status===200){
-      this.invoice={billId:res.body.bill.billId,date:new Date(res.purchaseTime),amountPaid:res.body.bill.payableAmount};
+      console.log(res)
+      this.invoice={billId:res.body.bill.billId,date:new Date(res.body.purchaseTime),amountPaid:res.body.bill.payableAmount};
       this.bill={totalAmount:res.body.bill.totalAmount,DiscountAmount:res.body.bill.discountAmount,amountPaid:res.body.bill.payableAmount};
-      for (let [index, prod] of res.body.productIdList.entries()){
-        {
-          const dbproduct: any = await this.productService.getproductById(prod).toPromise();
+     this.prodlist=res.body.productIdList;
+     this.quntitylist=res.body.quantity;
+      const profile=await this.prifileservice.getProfileByid(res.body.marchentId).toPromise();
+      if(profile){
+        this.delear=profile.body;
+        }
+      for (let [index, prod] of this.prodlist.entries()){
+          const dbproduct: any = await this.basketService.getproductById(prod).toPromise();
           if (dbproduct) {
-            console.log(dbproduct)
             const prodetail: {
+              farmerId:number
               productId: string,
               productName: string,
               productPrice: number,
               productQuantity: number,
               totalPrice: number
             } = {
-              productId: dbproduct.productId,
-              productName: dbproduct.productName,
-              productPrice: dbproduct.price,
-              productQuantity: res.body.quantity[index], 
-              totalPrice: dbproduct.price*res.body.quantity[index]
+              farmerId:dbproduct.body.farmerId,
+              productId: dbproduct.body.productId,
+              productName: dbproduct.body.productName,
+              productPrice: dbproduct.body.price,
+              productQuantity: this.quntitylist[index], 
+              totalPrice: dbproduct.body.price*this.quntitylist[index]
             };
-            this.products.push(prodetail);
             console.log(prodetail)
-          }
-        }
+            this.products.push(prodetail);
+            try{
+              const farprofile=await this.prifileservice.getProfileByid(dbproduct.body.farmerId).toPromise();
+              if(farprofile){
+                this.farmers.push(farprofile.body)
+              }
+            }catch{
+              console.log("no address found for farmer id"+dbproduct.body.farmerId);
+            }
+            }
+        
       }
-
-      console.log(this.products);
-      console.log(this.bill);
-      console.log(this.invoice)
     }else{
       console.log(res)
     }
   },error=>{
     console.log(error);
     this.error=error.error.message;
-  })
+  }) 
+
 }
+
+  
+
+
 
 
 

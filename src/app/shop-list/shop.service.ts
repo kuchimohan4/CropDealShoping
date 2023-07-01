@@ -13,7 +13,7 @@ export interface shop{ shopid:number,shopName:string,shopImg:string,shopRating:n
 export class shopService{
     shopchanged:Subject<{ shopid:number,shopName:string,shopImg:string,shopRating:number,shopDesc:string}>=new Subject();
     shopschanged:Subject<{shopid:number,shopName:string,shopImg:string,shopRating:number,shopDesc:string}[]>=new Subject();
-
+    serching= new Subject<string>;
     constructor(private http:HttpClient,private authservice:AuthenticationService,private roter:Router){}
 
     shop:any={ shopid:0,shopName:'',shopImg:'',shopRating:0,shopDesc:''};
