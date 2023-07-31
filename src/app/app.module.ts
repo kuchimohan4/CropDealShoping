@@ -28,6 +28,7 @@ import { OrderBillComponent } from './basket/order-bill/order-bill.component';
 import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { searchPipe } from './shop-list/shop/serchPipe';
+import { BackEndSwaggerComponent } from './back-end-swagger/back-end-swagger.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { searchPipe } from './shop-list/shop/serchPipe';
     OrderBillComponent,
     OrdersComponent,
     UsersComponent,
-    searchPipe
+    searchPipe,
+    BackEndSwaggerComponent
   ],
   imports: [
     BrowserModule,

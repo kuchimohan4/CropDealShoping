@@ -90,4 +90,8 @@ export class shopService{
       return this.http.get<{avgrating:number}>('http://localhost:8765/review/getavgreviewofshop/'+id);
     }
 
+    doesFarmerHaveashop(){
+      return this.http.get('http://localhost:8765/shop/doesFarmerHaveShop',{ observe: 'response' })
+  }
+
 }

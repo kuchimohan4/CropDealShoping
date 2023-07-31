@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { shopService } from '../shop.service';
 import { proileservice } from 'src/app/profile/profile.service';
 import { AuthenticationService } from 'src/app/auth/auth.service';
+import { userService } from 'src/app/users/user.service';
 
 @Component({
   selector: 'app-new-shop',
@@ -22,6 +23,13 @@ export class NewShopComponent implements OnInit {
 shop={ shopid:0,shopName:'',shopImg:'',shopRating:0,shopDesc:''};
     
 ngOnInit(): void {
+
+  this.shopservice.doesFarmerHaveashop().subscribe((res:any)=>{
+    if(res.body['haveAShop']==false){
+      this.router.navigate(['/shops/edit-shop'],{queryParams:{new: true}});
+    }
+  })
+
   this.activerote.queryParams.subscribe((params) => {
     if (params['new'] === 'true') {
       this.isediting = false;
@@ -35,7 +43,6 @@ ngOnInit(): void {
     this.shop = shop;
     this.shopservice.getImage(this.shop.shopid+'_shopImg').subscribe(
       res => {
-        // console.log(this.profile.profilepic)
         this.uploadedimgfile=res;
         this.uplaodedimg  = URL.createObjectURL(res); 
       });
@@ -49,9 +56,7 @@ ngOnInit(): void {
 
 initform(){
 
-  if(this.isediting){
-    console.log('hello')
-    console.log(this.shop)  
+  if(this.isediting){ 
       this.shopform=new FormGroup({
         'shopName':new FormControl(this.shop.shopName,[Validators.required,Validators.maxLength(20)]),
           'shopImg':new FormControl(null,[Validators.required]),
@@ -73,10 +78,10 @@ saveshop(){
   if(this.isediting){
     this.shopservice.setshopimg(this.uploadedimgfile);
     let shopinput={ shopid:0,shopName:this.shopform.value['shopName'],shopImg:this.authservice.getauth().id+"_shopImg",shopRating:0,shopDesc:this.shopform.value['shopDesc']};
-    this.shopservice.updateShop(shopinput).subscribe((Response)=>{
+    this.shopservice.updateShop(shopinput).subscribe((Response:any)=>{
       if(Response.status===200){
         
-      this.router.navigate(['../edit-shop'])
+        this.router.navigate(['/shops/'+Response.body['shopid']]);
       }
     },error=>{
       console.log(error.error.message)
@@ -86,10 +91,10 @@ saveshop(){
   }else{
     this.shopservice.setshopimg(this.uploadedimgfile);
    let shopinput={ shopid:0,shopName:this.shopform.value['shopName'],shopImg:this.authservice.getauth().id+"_shopImg",shopRating:0,shopDesc:this.shopform.value['shopDesc']}
-    this.shopservice.addshop(shopinput).subscribe((Response)=>{
+    this.shopservice.addshop(shopinput).subscribe((Response:any)=>{
       if(Response.status===200){
-        
-      this.router.navigate(['../edit-shop'])
+        this.router.navigate(['/shops/'+Response.body['shopid']]);
+      // this.router.navigate(['../edit-shop'])
       }
     },error=>{
       console.log(error.error.message)

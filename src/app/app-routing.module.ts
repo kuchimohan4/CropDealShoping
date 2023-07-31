@@ -13,6 +13,7 @@ import { ReviewComponent } from './shop-list/products/reviews/review/review.comp
 import { OrderBillComponent } from './basket/order-bill/order-bill.component';
 import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
+import { BackEndSwaggerComponent } from './back-end-swagger/back-end-swagger.component';
 
 const routes: Routes = [
   {path:"",redirectTo:"shops",pathMatch:"full"},
@@ -34,7 +35,8 @@ const routes: Routes = [
   {path:'my-orders',component:OrdersComponent},
   {path:'orders',component:OrdersComponent},
   {path:'farmers',component:UsersComponent},
-  {path:'dealer',component:UsersComponent}
+  {path:'dealer',component:UsersComponent},
+  {path:'back-end-swagger-docs',component:BackEndSwaggerComponent}
 ];
 
 @NgModule({
